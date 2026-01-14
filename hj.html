@@ -1,0 +1,1128 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Voice Command to Open YouTube</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+  </head>
+  <body>
+    <h2>Say "alert" to open YouTube</h2>
+
+    <script>
+      if (annyang) {
+        var commands = {
+          alert: function () {
+            window.open("https://www.youtube.com", "_blank");
+            // alert("BHJCd");
+          },
+        };
+
+        annyang.addCommands(commands);
+        annyang.start();
+      } else {
+        alert("Speech recognition not supported");
+      }
+    </script>
+  </body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Voice</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #111;
+        flex-direction: column;
+        gap: 20px;
+        font-family: sans-serif;
+      }
+
+      /* Container for boxes */
+      .container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Boxes */
+      .box {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background-color: crimson;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      /* Initial positions */
+      .top {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .right {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%) rotate(45deg);
+      }
+      .bottom {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .left {
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      /* Animation state */
+      .container.open .top {
+        transform: translate(-50%, -120px) rotate(45deg);
+      }
+      .container.open .right {
+        transform: translate(120px, -50%) rotate(45deg);
+      }
+      .container.open .bottom {
+        transform: translate(-50%, 120px) rotate(45deg);
+      }
+      .container.open .left {
+        transform: translate(-120px, -50%) rotate(45deg);
+      }
+
+      /* Voice button */
+      #mic {
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        background: #0af;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="mic">🎤 Tap & Speak</button>
+
+    <div class="container">
+      <div class="box top">TOP</div>
+      <div class="box right">RIGHT</div>
+      <div class="box bottom">BOTTOM</div>
+      <div class="box left">LEFT</div>
+    </div>
+
+    <script>
+      // Mobile-safe Web Speech API
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert("Your browser does not support voice commands.");
+      } else {
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        const button = document.getElementById("mic");
+        const container = document.querySelector(".container");
+
+        button.addEventListener("click", () => {
+          recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+          const command = event.results[0][0].transcript.toLowerCase();
+          console.log("Voice command:", command);
+
+          if (command.includes("open it")) {
+            container.classList.add("open");
+          }
+        };
+
+        recognition.onerror = (event) => {
+          console.error("Voice error:", event.error);
+        };
+      }
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universal Voice Commands</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        min-height: 100vh;
+        transition: background 0.5s ease;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+      }
+
+      .platform-indicator {
+        text-align: center;
+        background: #e3f2fd;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 4px solid #2196f3;
+      }
+
+      .voice-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .voice-btn {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2196f3, #f44336);
+        border: none;
+        color: white;
+        font-size: 32px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 10px 20px rgba(33, 150, 243, 0.3);
+        position: relative;
+      }
+
+      .voice-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.4);
+      }
+
+      .voice-btn.listening {
+        animation: pulse 1.5s infinite;
+        background: linear-gradient(135deg, #f44336, #ff9800);
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7),
+            0 10px 20px rgba(244, 67, 54, 0.3);
+        }
+        70% {
+          box-shadow: 0 0 0 25px rgba(244, 67, 54, 0),
+            0 15px 30px rgba(244, 67, 54, 0.4);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(244, 67, 54, 0),
+            0 10px 20px rgba(244, 67, 54, 0.3);
+        }
+      }
+
+      .mic-icon {
+        font-size: 40px;
+      }
+
+      .btn-text {
+        position: absolute;
+        bottom: -30px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .status-container {
+        background: #f5f5f5;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border: 2px solid #e0e0e0;
+      }
+
+      .status-title {
+        color: #333;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .status-title i {
+        font-size: 20px;
+      }
+
+      #status {
+        font-size: 18px;
+        color: #2196f3;
+        min-height: 30px;
+        font-weight: 500;
+      }
+
+      #transcript {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border-left: 4px solid #4caf50;
+        font-style: italic;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+      }
+
+      .command-output {
+        background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border: 2px solid #c8e6c9;
+      }
+
+      #actionOutput {
+        margin-top: 15px;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        border: 1px dashed #4caf50;
+      }
+
+      .websites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .website-card {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .website-card:hover {
+        transform: translateY(-5px);
+        border-color: #2196f3;
+        box-shadow: 0 10px 20px rgba(33, 150, 243, 0.2);
+      }
+
+      .website-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .website-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .website-command {
+        font-size: 12px;
+        color: #666;
+        background: #f5f5f5;
+        padding: 4px 8px;
+        border-radius: 15px;
+        display: inline-block;
+      }
+
+      .command-list {
+        background: #fff3e0;
+        padding: 25px;
+        border-radius: 15px;
+        margin-top: 30px;
+        border: 2px solid #ffb74d;
+      }
+
+      .command-list h3 {
+        color: #e65100;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .command-item {
+        background: white;
+        padding: 12px 20px;
+        margin: 10px 0;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        border-left: 4px solid #ff9800;
+      }
+
+      .command-keyword {
+        background: #ff9800;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin-right: 15px;
+        font-size: 14px;
+      }
+
+      .command-desc {
+        color: #333;
+      }
+
+      .device-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e8eaf6;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #3f51b5;
+      }
+
+      .success-message {
+        background: #4caf50;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        display: none;
+        animation: slideIn 0.5s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 20px;
+        }
+
+        .voice-btn {
+          width: 80px;
+          height: 80px;
+        }
+
+        .mic-icon {
+          font-size: 32px;
+        }
+
+        .websites-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .device-info {
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .websites-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .command-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .command-keyword {
+          margin-right: 0;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1><i class="fas fa-microphone-alt"></i> Universal Voice Assistant</h1>
+      <p class="subtitle">
+        Works on both Mobile & Desktop • Just say "Open YouTube" or any command
+        below
+      </p>
+
+      <div class="platform-indicator">
+        <i class="fas fa-laptop"></i> <i class="fas fa-mobile-alt"></i>
+        <span id="platformText">Detecting your device...</span>
+      </div>
+
+      <div class="voice-controls">
+        <button class="voice-btn" id="voiceButton">
+          <span class="mic-icon">🎤</span>
+          <span class="btn-text" id="btnText">Click to Speak</span>
+        </button>
+      </div>
+
+      <div class="status-container">
+        <div class="status-title">
+          <i class="fas fa-info-circle"></i>
+          <span>Status</span>
+        </div>
+        <div id="status">Ready - Say "Open YouTube" to get started!</div>
+        <div id="transcript"></div>
+      </div>
+
+      <div class="command-output">
+        <div class="status-title">
+          <i class="fas fa-terminal"></i>
+          <span>Action Output</span>
+        </div>
+        <div id="actionOutput">Your commands will appear here...</div>
+      </div>
+
+      <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <span id="successText">Success! Opening YouTube...</span>
+      </div>
+
+      <div class="websites-grid">
+        <div class="website-card" data-site="youtube">
+          <div class="website-icon">
+            <i class="fab fa-youtube" style="color: #ff0000"></i>
+          </div>
+          <div class="website-name">YouTube</div>
+          <div class="website-command">"Open YouTube"</div>
+        </div>
+        <div class="website-card" data-site="google">
+          <div class="website-icon">
+            <i class="fab fa-google" style="color: #4285f4"></i>
+          </div>
+          <div class="website-name">Google</div>
+          <div class="website-command">"Open Google"</div>
+        </div>
+        <div class="website-card" data-site="facebook">
+          <div class="website-icon">
+            <i class="fab fa-facebook" style="color: #1877f2"></i>
+          </div>
+          <div class="website-name">Facebook</div>
+          <div class="website-command">"Open Facebook"</div>
+        </div>
+        <div class="website-card" data-site="twitter">
+          <div class="website-icon">
+            <i class="fab fa-twitter" style="color: #1da1f2"></i>
+          </div>
+          <div class="website-name">Twitter</div>
+          <div class="website-command">"Open Twitter"</div>
+        </div>
+        <div class="website-card" data-site="github">
+          <div class="website-icon">
+            <i class="fab fa-github" style="color: #333"></i>
+          </div>
+          <div class="website-name">GitHub</div>
+          <div class="website-command">"Open GitHub"</div>
+        </div>
+        <div class="website-card" data-site="instagram">
+          <div class="website-icon">
+            <i class="fab fa-instagram" style="color: #e4405f"></i>
+          </div>
+          <div class="website-name">Instagram</div>
+          <div class="website-command">"Open Instagram"</div>
+        </div>
+      </div>
+
+      <div class="command-list">
+        <h3><i class="fas fa-list-alt"></i> Available Voice Commands</h3>
+        <div class="command-item">
+          <span class="command-keyword">Open [Website]</span>
+          <span class="command-desc"
+            >Opens popular websites like YouTube, Google, etc.</span
+          >
+        </div>
+        <div class="command-item">
+          <span class="command-keyword">Search for [query]</span>
+          <span class="command-desc">Performs a Google search</span>
+        </div>
+        <div class="command-item">
+          <span class="command-keyword">What time is it?</span>
+          <span class="command-desc">Tells you the current time</span>
+        </div>
+        <div class="command-item">
+          <span class="command-keyword">Change theme</span>
+          <span class="command-desc">Switches between light and dark mode</span>
+        </div>
+        <div class="command-item">
+          <span class="command-keyword">Stop / Exit</span>
+          <span class="command-desc">Stops voice recognition</span>
+        </div>
+      </div>
+
+      <div class="device-info">
+        <div id="deviceType">
+          <i class="fas fa-question-circle"></i> Detecting device...
+        </div>
+        <div id="browserInfo">
+          <i class="fas fa-globe"></i> Browser: Detecting...
+        </div>
+        <div id="micStatus">
+          <i class="fas fa-microphone-slash"></i> Microphone: Click to enable
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Detect device type
+      function detectDevice() {
+        const isMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          );
+        const isTablet =
+          /iPad|Android|Tablet/i.test(navigator.userAgent) && !isMobile;
+
+        let deviceType = "";
+        if (isMobile) deviceType = "📱 Mobile Device";
+        else if (isTablet) deviceType = "📱 Tablet";
+        else deviceType = "💻 Desktop/Laptop";
+
+        document.getElementById("deviceType").innerHTML = `<i class="fas fa-${
+          isMobile ? "mobile-alt" : "laptop"
+        }"></i> ${deviceType}`;
+        document.getElementById(
+          "platformText"
+        ).textContent = `Using on ${deviceType}`;
+
+        // Update button text based on device
+        const btnText = document.getElementById("btnText");
+        if (isMobile || isTablet) {
+          btnText.textContent = "Tap to Speak";
+        } else {
+          btnText.textContent = "Click to Speak";
+        }
+
+        return { isMobile, isTablet };
+      }
+
+      // Detect browser
+      function detectBrowser() {
+        const userAgent = navigator.userAgent;
+        let browser = "Unknown Browser";
+
+        if (userAgent.includes("Chrome") && !userAgent.includes("Edg"))
+          browser = "Google Chrome";
+        else if (userAgent.includes("Firefox")) browser = "Mozilla Firefox";
+        else if (userAgent.includes("Safari") && !userAgent.includes("Chrome"))
+          browser = "Apple Safari";
+        else if (userAgent.includes("Edg")) browser = "Microsoft Edge";
+        else if (userAgent.includes("Opera") || userAgent.includes("OPR"))
+          browser = "Opera";
+
+        document.getElementById(
+          "browserInfo"
+        ).innerHTML = `<i class="fas fa-globe"></i> Browser: ${browser}`;
+        return browser;
+      }
+
+      // Initialize device detection
+      const deviceInfo = detectDevice();
+      detectBrowser();
+
+      // Check for speech recognition support
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        document.getElementById("status").innerHTML =
+          "⚠️ Voice recognition not supported in this browser. Please use Chrome, Edge, or Safari.";
+        document.getElementById("micStatus").innerHTML =
+          '<i class="fas fa-times-circle" style="color: #f44336;"></i> Voice recognition not supported';
+        document.getElementById("voiceButton").disabled = true;
+        document.getElementById("voiceButton").style.opacity = "0.5";
+      } else {
+        // Initialize speech recognition
+        const recognition = new SpeechRecognition();
+
+        // Configuration for cross-platform compatibility
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+        recognition.maxAlternatives = 1;
+
+        // DOM Elements
+        const voiceButton = document.getElementById("voiceButton");
+        const status = document.getElementById("status");
+        const transcript = document.getElementById("transcript");
+        const actionOutput = document.getElementById("actionOutput");
+        const successMessage = document.getElementById("successMessage");
+        const successText = document.getElementById("successText");
+
+        // State
+        let isListening = false;
+        let currentTranscript = "";
+
+        // Website URLs mapping
+        const websites = {
+          youtube: {
+            url: "https://www.youtube.com",
+            name: "YouTube",
+            color: "#ff0000",
+          },
+          google: {
+            url: "https://www.google.com",
+            name: "Google",
+            color: "#4285f4",
+          },
+          facebook: {
+            url: "https://www.facebook.com",
+            name: "Facebook",
+            color: "#1877f2",
+          },
+          twitter: {
+            url: "https://www.twitter.com",
+            name: "Twitter",
+            color: "#1da1f2",
+          },
+          github: {
+            url: "https://www.github.com",
+            name: "GitHub",
+            color: "#333333",
+          },
+          instagram: {
+            url: "https://www.instagram.com",
+            name: "Instagram",
+            color: "#e4405f",
+          },
+          whatsapp: {
+            url: "https://web.whatsapp.com",
+            name: "WhatsApp",
+            color: "#25d366",
+          },
+          linkedin: {
+            url: "https://www.linkedin.com",
+            name: "LinkedIn",
+            color: "#0077b5",
+          },
+          amazon: {
+            url: "https://www.amazon.com",
+            name: "Amazon",
+            color: "#ff9900",
+          },
+          netflix: {
+            url: "https://www.netflix.com",
+            name: "Netflix",
+            color: "#e50914",
+          },
+          reddit: {
+            url: "https://www.reddit.com",
+            name: "Reddit",
+            color: "#ff4500",
+          },
+          spotify: {
+            url: "https://www.spotify.com",
+            name: "Spotify",
+            color: "#1db954",
+          },
+        };
+
+        // Command patterns
+        const commands = {
+          open: [
+            "open",
+            "go to",
+            "navigate to",
+            "take me to",
+            "visit",
+            "launch",
+          ],
+          search: ["search", "search for", "find", "look up", "google"],
+          time: ["time", "what time", "current time", "clock"],
+          theme: [
+            "theme",
+            "change theme",
+            "dark mode",
+            "light mode",
+            "toggle theme",
+          ],
+          stop: ["stop", "exit", "quit", "end", "close"],
+        };
+
+        // Start/Stop voice recognition
+        voiceButton.addEventListener("click", toggleListening);
+
+        // Add click handlers for website cards
+        document.querySelectorAll(".website-card").forEach((card) => {
+          card.addEventListener("click", function () {
+            const site = this.dataset.site;
+            openWebsite(site);
+          });
+        });
+
+        function toggleListening() {
+          if (!isListening) {
+            startListening();
+          } else {
+            stopListening();
+          }
+        }
+
+        function startListening() {
+          try {
+            recognition.start();
+            voiceButton.classList.add("listening");
+            status.textContent = "🎤 Listening... Speak now!";
+            isListening = true;
+            voiceButton.innerHTML =
+              '<span class="mic-icon">⏹️</span><span class="btn-text">Click to Stop</span>';
+            document.getElementById("micStatus").innerHTML =
+              '<i class="fas fa-microphone" style="color: #4caf50;"></i> Microphone: Active';
+
+            // Vibrate on mobile if supported
+            if (navigator.vibrate && deviceInfo.isMobile) {
+              navigator.vibrate(100);
+            }
+          } catch (error) {
+            console.error("Error starting recognition:", error);
+            status.textContent =
+              "Error starting microphone. Please refresh and allow microphone access.";
+          }
+        }
+
+        function stopListening() {
+          recognition.stop();
+          voiceButton.classList.remove("listening");
+          status.textContent = 'Ready - Say "Open YouTube" to get started!';
+          isListening = false;
+          voiceButton.innerHTML =
+            '<span class="mic-icon">🎤</span><span class="btn-text" id="btnText">Click to Speak</span>';
+          document.getElementById("micStatus").innerHTML =
+            '<i class="fas fa-microphone-slash"></i> Microphone: Click to enable';
+
+          // Update button text based on device
+          const btnText = document.getElementById("btnText");
+          if (deviceInfo.isMobile) {
+            btnText.textContent = "Tap to Speak";
+          } else {
+            btnText.textContent = "Click to Speak";
+          }
+        }
+
+        // Handle recognition results
+        recognition.onresult = (event) => {
+          const last = event.results.length - 1;
+          const text = event.results[last][0].transcript.trim();
+
+          // Update transcript in real-time
+          currentTranscript = text;
+          transcript.textContent = `You said: "${text}"`;
+
+          // Process only final results
+          if (event.results[last].isFinal) {
+            processCommand(text);
+          }
+        };
+
+        // Process voice commands
+        function processCommand(text) {
+          const command = text.toLowerCase();
+          let response = "";
+          let action = "";
+
+          // Check for OPEN commands
+          if (commands.open.some((cmd) => command.includes(cmd))) {
+            // Extract website name from command
+            let websiteFound = null;
+
+            for (const [key, site] of Object.entries(websites)) {
+              if (command.includes(key)) {
+                websiteFound = key;
+                break;
+              }
+            }
+
+            // Also check for variations
+            if (!websiteFound) {
+              if (command.includes("you tube") || command.includes("youtu"))
+                websiteFound = "youtube";
+              else if (command.includes("goog")) websiteFound = "google";
+              else if (command.includes("face")) websiteFound = "facebook";
+              else if (command.includes("twit")) websiteFound = "twitter";
+              else if (command.includes("git")) websiteFound = "github";
+              else if (command.includes("insta")) websiteFound = "instagram";
+            }
+
+            if (websiteFound) {
+              openWebsite(websiteFound);
+              return;
+            } else {
+              response =
+                "Which website would you like to open? Try saying: 'Open YouTube', 'Open Google', etc.";
+            }
+          }
+          // Check for SEARCH commands
+          else if (commands.search.some((cmd) => command.includes(cmd))) {
+            const searchMatch =
+              command.match(/search (?:for )?(.+)/i) ||
+              command.match(/find (.+)/i) ||
+              command.match(/google (.+)/i);
+
+            if (searchMatch && searchMatch[1]) {
+              const query = encodeURIComponent(searchMatch[1]);
+              const searchUrl = `https://www.google.com/search?q=${query}`;
+              response = `Searching for: ${searchMatch[1]}`;
+              action = `<p><i class="fas fa-search"></i> Opening Google search for: <strong>${searchMatch[1]}</strong></p>`;
+
+              // Open in new tab
+              setTimeout(() => {
+                window.open(searchUrl, "_blank");
+              }, 1000);
+
+              showSuccessMessage(`Searching for "${searchMatch[1]}"...`);
+            }
+          }
+          // Check for TIME commands
+          else if (commands.time.some((cmd) => command.includes(cmd))) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            response = `The current time is ${timeString}`;
+            action = `<p><i class="fas fa-clock"></i> ${now.toLocaleTimeString(
+              [],
+              { hour: "2-digit", minute: "2-digit", second: "2-digit" }
+            )}</p>`;
+          }
+          // Check for THEME commands
+          else if (commands.theme.some((cmd) => command.includes(cmd))) {
+            const isDark =
+              document.body.style.background.includes("#121212") ||
+              document.body.style.background.includes("#1a1a1a");
+
+            if (isDark) {
+              document.body.style.background =
+                "linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)";
+              response = "Changed to light theme";
+              action = `<p><i class="fas fa-sun"></i> Switched to light theme</p>`;
+            } else {
+              document.body.style.background =
+                "linear-gradient(135deg, #121212, #2d2d2d, #1a1a1a)";
+              response = "Changed to dark theme";
+              action = `<p><i class="fas fa-moon"></i> Switched to dark theme</p>`;
+            }
+          }
+          // Check for STOP commands
+          else if (commands.stop.some((cmd) => command.includes(cmd))) {
+            response =
+              "Stopping voice recognition. Say 'Click to Speak' to start again.";
+            setTimeout(stopListening, 500);
+          }
+          // Unknown command
+          else {
+            response =
+              "I didn't understand that. Try saying 'Open YouTube', 'Search for cats', or 'What time is it?'";
+            action = `<p><i class="fas fa-question-circle"></i> Try one of these commands:</p>
+                             <ul style="margin-top: 10px;">
+                                <li>"Open YouTube"</li>
+                                <li>"Search for cute cats"</li>
+                                <li>"What time is it?"</li>
+                                <li>"Change theme"</li>
+                             </ul>`;
+          }
+
+          // Update UI
+          if (response) {
+            status.textContent = response;
+            if (action) {
+              actionOutput.innerHTML = action;
+            }
+
+            // Optional: Speak response
+            speak(response);
+          }
+        }
+
+        // Function to open websites
+        function openWebsite(siteKey) {
+          if (websites[siteKey]) {
+            const site = websites[siteKey];
+
+            // Update UI
+            status.textContent = `Opening ${site.name}...`;
+            actionOutput.innerHTML = `
+                        <p><i class="fas fa-external-link-alt"></i> Redirecting to: <strong>${site.name}</strong></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                            <i class="fas fa-info-circle"></i> The website will open in a new tab
+                        </p>
+                    `;
+
+            // Show success message
+            showSuccessMessage(`Opening ${site.name}...`);
+
+            // Vibrate on mobile
+            if (navigator.vibrate && deviceInfo.isMobile) {
+              navigator.vibrate([100, 50, 100]);
+            }
+
+            // Open in new tab after a short delay
+            setTimeout(() => {
+              window.open(site.url, "_blank");
+
+              // Add a visual effect
+              document.body.style.background = site.color + "40"; // Add transparency
+              setTimeout(() => {
+                document.body.style.background = "";
+              }, 1000);
+            }, 800);
+          }
+        }
+
+        // Show success message
+        function showSuccessMessage(message) {
+          successText.textContent = message;
+          successMessage.style.display = "block";
+
+          setTimeout(() => {
+            successMessage.style.display = "none";
+          }, 3000);
+        }
+
+        // Text-to-speech function
+        function speak(text) {
+          if ("speechSynthesis" in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 0.8;
+            speechSynthesis.speak(utterance);
+          }
+        }
+
+        // Error handling
+        recognition.onerror = (event) => {
+          console.error("Speech recognition error:", event.error);
+
+          let errorMessage = "Error: ";
+          switch (event.error) {
+            case "no-speech":
+              errorMessage = "No speech detected. Try speaking louder.";
+              break;
+            case "audio-capture":
+              errorMessage =
+                "No microphone found. Please check your microphone.";
+              break;
+            case "not-allowed":
+              errorMessage =
+                "Microphone access denied. Please allow microphone access.";
+              break;
+            case "network":
+              errorMessage =
+                "Network error occurred. Please check your connection.";
+              break;
+            default:
+              errorMessage = `Error: ${event.error}`;
+          }
+
+          status.textContent = errorMessage;
+          document.getElementById(
+            "micStatus"
+          ).innerHTML = `<i class="fas fa-exclamation-triangle" style="color: #ff9800;"></i> ${errorMessage}`;
+
+          // Auto-restart if appropriate
+          if (event.error === "no-speech" && isListening) {
+            setTimeout(() => {
+              if (isListening) {
+                recognition.start();
+              }
+            }, 1000);
+          } else {
+            stopListening();
+          }
+        };
+
+        recognition.onend = () => {
+          if (isListening) {
+            // Auto-restart if still supposed to be listening
+            setTimeout(() => {
+              if (isListening) {
+                recognition.start();
+              }
+            }, 100);
+          }
+        };
+      }
+
+      // Keyboard shortcut for desktop (Spacebar to toggle)
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.code === "Space" &&
+          !event.target.matches("input, textarea")
+        ) {
+          event.preventDefault();
+          document.getElementById("voiceButton").click();
+        }
+
+        // Escape key to stop
+        if (event.code === "Escape" && isListening) {
+          stopListening();
+        }
+      });
+
+      // Initialize microphone status
+      document.getElementById("micStatus").innerHTML = SpeechRecognition
+        ? '<i class="fas fa-microphone"></i> Microphone: Ready'
+        : '<i class="fas fa-times-circle" style="color: #f44336;"></i> Voice recognition not supported';
+    </script>
+  </body>
+</html>
