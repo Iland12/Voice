@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title>Voice Command to Open YouTube</title>
@@ -20,6 +20,140 @@
         annyang.start();
       } else {
         alert("Speech recognition not supported");
+      }
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Voice</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #111;
+        flex-direction: column;
+        gap: 20px;
+        font-family: sans-serif;
+      }
+
+      /* Container for boxes */
+      .container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Boxes */
+      .box {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background-color: crimson;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      /* Initial positions */
+      .top {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .right {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%) rotate(45deg);
+      }
+      .bottom {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .left {
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      /* Animation state */
+      .container.open .top {
+        transform: translate(-50%, -120px) rotate(45deg);
+      }
+      .container.open .right {
+        transform: translate(120px, -50%) rotate(45deg);
+      }
+      .container.open .bottom {
+        transform: translate(-50%, 120px) rotate(45deg);
+      }
+      .container.open .left {
+        transform: translate(-120px, -50%) rotate(45deg);
+      }
+
+      /* Voice button */
+      #mic {
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        background: #0af;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="mic">🎤 Tap & Speak</button>
+
+    <div class="container">
+      <div class="box top">TOP</div>
+      <div class="box right">RIGHT</div>
+      <div class="box bottom">BOTTOM</div>
+      <div class="box left">LEFT</div>
+    </div>
+
+    <script>
+      // Mobile-safe Web Speech API
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert("Your browser does not support voice commands.");
+      } else {
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        const button = document.getElementById("mic");
+        const container = document.querySelector(".container");
+
+        button.addEventListener("click", () => {
+          recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+          const command = event.results[0][0].transcript.toLowerCase();
+          console.log("Voice command:", command);
+
+          if (command.includes("open it")) {
+            container.classList.add("open");
+          }
+        };
+
+        recognition.onerror = (event) => {
+          console.error("Voice error:", event.error);
+        };
       }
     </script>
   </body>
